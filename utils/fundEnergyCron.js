@@ -6,7 +6,7 @@ const { connect, KeyPair, keyStores } = nearAPI;
 const sender = "alach.testnet";
 const networkId = "default";
 
-async function autoFund(name) {
+async function autoFund(id, amount) {
   const keyStore = new keyStores.InMemoryKeyStore();
   const keyPair = KeyPair.fromString(
     "ed25519:eYogCusUw3asWPRwAmiv6aDfsBbjs9K2x69f9SP26yUhnwMWEEzjS1uDF41rZ9BGDSpEXNYL8gHDuJbUCDtBTZq"
@@ -31,7 +31,7 @@ async function autoFund(name) {
   });
 
   contract
-    .get_specific_proposal({ proposal_name: name })
+    .get_specific_proposal({ id: id })
     .then((proposal) => {
       //console.log(proposals)
       if (
@@ -47,7 +47,7 @@ async function autoFund(name) {
         contract
           .fund({
             account: "energydao.testnet",
-            amount: 10,
+            amount,
           })
           .then((res) => {
             console.log("Mala jaw", res);

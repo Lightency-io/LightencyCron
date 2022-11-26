@@ -8,8 +8,8 @@ var CronJob = require("cron").CronJob;
 //@Route GET api/fundenergy
 // @Description
 // @Access Private
-router.post("/",  async (req, res) => {
-  const { proposal_name, minutes, hours, days } = req.body;
+router.post("/", async (req, res) => {
+  const { id, amount, minutes, hours, days } = req.body;
   try {
     console.log("Before job instantiation");
     var now = new Date();
@@ -23,7 +23,7 @@ router.post("/",  async (req, res) => {
     const job = new CronJob(date, function () {
       const d = new Date();
       console.log("Specific date:", date, ", onTick at:", d);
-      autoFund(proposal_name);
+      autoFund(id, amount);
     });
     await job.start();
     return res.json({ result: "The fund energy pool cron is set  succefully" });

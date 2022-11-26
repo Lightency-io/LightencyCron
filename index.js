@@ -8,7 +8,6 @@ const corsOptions = {
   optionSuccessStatus: 200,
 };
 
-
 const PORT = process.env.PORT || 5000;
 
 const app = express();
@@ -26,7 +25,7 @@ app.get("/", async (req, res) => {
 
 app.use("/api/fundEnergy", require("./routes/api/fundEnergy"));
 app.use("/api/addCouncil", require("./routes/api/addCouncil"));
-
+app.use("/api/borrowFromBurrow", require("./routes/api/borrowFromBurrow"));
 
 server.listen(PORT, () => console.log(`Server started on port ${PORT}`));
 
