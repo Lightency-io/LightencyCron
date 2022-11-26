@@ -25,7 +25,7 @@ app.get("/", async (req, res) => {
 
 app.use("/api/fundEnergy", require("./routes/api/fundEnergy"));
 app.use("/api/addCouncil", require("./routes/api/addCouncil"));
-app.use("/api/borrowFromBurrow", require("./routes/api/borrowFromBurrow"));
+//app.use("/api/borrowFromBurrow", require("./routes/api/borrowFromBurrow"));
 
 server.listen(PORT, () => console.log(`Server started on port ${PORT}`));
 
