@@ -1,15 +1,15 @@
 const express = require("express");
-const autoFund = require("../../utils/fundWalletCron");
+const autoFund = require("../../../utils/mainnet/fundEnergyCron");
 const router = express.Router();
 
 var CronJob = require("cron").CronJob;
 
 //@author Firas Belhiba
-//@Route GET api/fundenergy
+//@Route GET api/mainnet/fundenergy
 // @Description
 // @Access Private
 router.post("/", async (req, res) => {
-  const { id, amount, receiver, minutes, hours, days } = req.body;
+  const { id, amount, minutes, hours, days } = req.body;
   try {
     console.log("Before job instantiation");
     var now = new Date();
@@ -23,7 +23,7 @@ router.post("/", async (req, res) => {
     const job = new CronJob(date, function () {
       const d = new Date();
       console.log("Specific date:", date, ", onTick at:", d);
-      autoFund(id, amount, receiver);
+      autoFund(id, amount);
     });
     await job.start();
     return res.json({ result: "The fund energy pool cron is set  succefully" });

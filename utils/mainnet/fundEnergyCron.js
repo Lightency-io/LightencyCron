@@ -3,33 +3,32 @@ const { Contract } = require("near-api-js");
 const nearAPI = require("near-api-js");
 const { connect, KeyPair, keyStores } = nearAPI;
 
-const sender = "alach.testnet";
-const networkId = "default";
+const sender = "lightency_watchdog.near";
+const networkId = "mainnet";
 
-async function autoFund(id, amount, receiver) {
+async function autoFund(id, amount) {
   const keyStore = new keyStores.InMemoryKeyStore();
   const keyPair = KeyPair.fromString(
-    "ed25519:eYogCusUw3asWPRwAmiv6aDfsBbjs9K2x69f9SP26yUhnwMWEEzjS1uDF41rZ9BGDSpEXNYL8gHDuJbUCDtBTZq"
+    "ed25519:2nDWWLh1BnPsY4iPD2khC82kwoN3qALPcdnxrGRtYo7HkGvfDAqHjXxLmhCxak3w1fbofhTndzRyuFdvtiQqSD9"
   );
   await keyStore.setKey(networkId, sender, keyPair);
   // // configuration used to connect to NEAR
   const connectionConfig = {
     networkId,
     keyStore,
-    nodeUrl: "https://rpc.testnet.near.org",
-    walletUrl: "https://wallet.testnet.near.org",
-    helperUrl: "https://helper.testnet.near.org",
-    explorerUrl: "https://explorer.testnet.near.org",
+    nodeUrl: "https://rpc.mainnet.near.org",
+    walletUrl: "https://wallet.near.org",
+    helperUrl: "https://helper.mainnet.near.org",
+    explorerUrl: "https://explorer.mainnet.near.org",
   };
 
   const near = await connect(connectionConfig);
   // create a NEAR account object
   const senderAccount = await near.account(sender);
-  let contract = new Contract(senderAccount, "energydao.testnet", {
+  let contract = new Contract(senderAccount, "treasurydao.near", {
     viewMethods: ["get_proposals", "get_specific_proposal"],
     changeMethods: ["fund"],
   });
-  
 
   contract
     .get_specific_proposal({ id: id })
@@ -47,7 +46,7 @@ async function autoFund(id, amount, receiver) {
       ) {
         contract
           .fund({
-            account: receiver,
+            account: "energydao.near",
             amount,
           })
           .then((res) => {

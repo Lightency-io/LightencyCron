@@ -23,9 +23,15 @@ app.get("/", async (req, res) => {
   res.json({ result: "API is running" });
 });
 
+// Testnet
 app.use("/api/fundEnergy", require("./routes/api/fundEnergy"));
 app.use("/api/addCouncil", require("./routes/api/addCouncil"));
-//app.use("/api/borrowFromBurrow", require("./routes/api/borrowFromBurrow"));
+app.use("/api/fundWallet", require("./routes/api/fundWallet"));
+app.use("/api/borrowFromBurrow", require("./routes/api/borrowFromBurrow"));
+
+// Mainnet
+app.use("/api/mainnet/fundEnergy", require("./routes/api/mainnet/fundEnergy"));
+app.use("/api/mainnet/addCouncil", require("./routes/api/mainnet/addCouncil"));
 
 server.listen(PORT, () => console.log(`Server started on port ${PORT}`));
 

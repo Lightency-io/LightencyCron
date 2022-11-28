@@ -3,39 +3,37 @@ const { Contract } = require("near-api-js");
 const nearAPI = require("near-api-js");
 const { connect, KeyPair, keyStores } = nearAPI;
 
-const sender = "alach.testnet";
-const networkId = "default";
+const sender = "lightency_watchdog.near";
+const networkId = "mainnet";
 
-async function autoFund(id, amount, receiver) {
+async function autoAddCouncil(id, account) {
   const keyStore = new keyStores.InMemoryKeyStore();
   const keyPair = KeyPair.fromString(
-    "ed25519:eYogCusUw3asWPRwAmiv6aDfsBbjs9K2x69f9SP26yUhnwMWEEzjS1uDF41rZ9BGDSpEXNYL8gHDuJbUCDtBTZq"
+    "ed25519:2nDWWLh1BnPsY4iPD2khC82kwoN3qALPcdnxrGRtYo7HkGvfDAqHjXxLmhCxak3w1fbofhTndzRyuFdvtiQqSD9"
   );
   await keyStore.setKey(networkId, sender, keyPair);
-  // // configuration used to connect to NEAR
   const connectionConfig = {
     networkId,
     keyStore,
-    nodeUrl: "https://rpc.testnet.near.org",
-    walletUrl: "https://wallet.testnet.near.org",
-    helperUrl: "https://helper.testnet.near.org",
-    explorerUrl: "https://explorer.testnet.near.org",
+    nodeUrl: "https://rpc.mainnet.near.org",
+    walletUrl: "https://wallet.near.org",
+    helperUrl: "https://helper.mainnet.near.org",
+    explorerUrl: "https://explorer.mainnet.near.org",
   };
 
   const near = await connect(connectionConfig);
   // create a NEAR account object
   const senderAccount = await near.account(sender);
-  let contract = new Contract(senderAccount, "energydao.testnet", {
-    viewMethods: ["get_proposals", "get_specific_proposal"],
-    changeMethods: ["fund"],
+  let contract = new Contract(senderAccount, "treasurydao.near", {
+    viewMethods: ["get_specific_proposal"],
+    changeMethods: ["add_council"],
   });
-  
 
   contract
-    .get_specific_proposal({ id: id })
+    .get_specific_proposal({ id })
     .then((proposal) => {
-      //console.log(proposals)
       if (
+        proposal?.proposal_type === 3 &&
         new Date() >
           addMinutes(
             proposal?.duration_days * 24 * 60 +
@@ -46,23 +44,22 @@ async function autoFund(id, amount, receiver) {
         proposal?.votes_for - proposal?.votes_against > 0
       ) {
         contract
-          .fund({
-            account: receiver,
-            amount,
+          .add_council({
+            account,
           })
           .then((res) => {
-            console.log("Mala jaw", res);
+            console.log("The job is done succefully", res);
           })
           .catch((err) => {
             console.log("This is an error", err);
           });
-        console.log("would do the job");
+        console.log("The transaction is now sent");
       } else {
-        console.log("would not");
+        console.log("Oops ! The transaction wasn't sent successfully'");
       }
     })
     .catch((err) => {
-      console.log("This is an error", err);
+      console.log("There has been an error", err);
     });
 }
 
@@ -72,4 +69,4 @@ const addMinutes = (numOfMinutes, date = new Date()) => {
   return date;
 };
 
-module.exports = autoFund;
+module.exports = autoAddCouncil;

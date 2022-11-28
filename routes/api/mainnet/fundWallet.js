@@ -1,11 +1,11 @@
 const express = require("express");
-const autoFund = require("../../utils/fundWalletCron");
+const autoFund = require("../../../utils/mainnet/fundWalletCron");
 const router = express.Router();
 
 var CronJob = require("cron").CronJob;
 
 //@author Firas Belhiba
-//@Route GET api/fundenergy
+//@Route GET api/mainnet/fundenergy
 // @Description
 // @Access Private
 router.post("/", async (req, res) => {
