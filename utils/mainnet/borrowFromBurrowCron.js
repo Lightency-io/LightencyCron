@@ -56,12 +56,12 @@ async function burrow(id, amount) {
             "250000000000000"
           )
           .then((res) => {
-            console.log("Mala jaw", res);
+            console.log("The burrow transaction has been completed", res);
           })
           .catch((err) => {
             console.log("This is an error", err);
           });
-        console.log("The transaction is now sent");
+        console.log("The Burrow transaction is now sent");
       } else {
         console.log("Oops ! The transaction wasn't sent successfully'");
       }
