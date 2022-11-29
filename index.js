@@ -32,6 +32,10 @@ app.use("/api/borrowFromBurrow", require("./routes/api/borrowFromBurrow"));
 // Mainnet
 app.use("/api/mainnet/fundEnergy", require("./routes/api/mainnet/fundEnergy"));
 app.use("/api/mainnet/addCouncil", require("./routes/api/mainnet/addCouncil"));
+app.use(
+  "/api/mainnet/borrowFromBurrow",
+  require("./routes/api/mainnet/borrowFromBurrow")
+);
 
 server.listen(PORT, () => console.log(`Server started on port ${PORT}`));
 
