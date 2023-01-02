@@ -19,7 +19,7 @@ app.use(cors(corsOptions));
 app.use(express.json({ extended: false }));
 
 app.get("/", async (req, res) => {
-  console.log("API is running");
+  console.log("API is running!!");
   res.json({ result: "API is running!" });
 });
 
