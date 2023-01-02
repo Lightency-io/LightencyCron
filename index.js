@@ -20,7 +20,7 @@ app.use(express.json({ extended: false }));
 
 app.get("/", async (req, res) => {
   console.log("API is running");
-  res.json({ result: "API is running" });
+  res.json({ result: "API is running!" });
 });
 
 // Testnet
